@@ -234,6 +234,7 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 			//	Trail(ERROR, "ProcessForm.Encode raw png. %s", err)
 			//	return ""
 			//}
+
 		}
 
 		if fExt == cGIF {
