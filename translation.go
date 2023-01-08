@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/uadmin/uadmin/colors"
+	"github.com/PesTospertnyj/uadmin/colors"
 )
 
 // Translation is for multilingual fields

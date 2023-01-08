@@ -6,7 +6,7 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/uadmin/uadmin/colors"
+	"github.com/PesTospertnyj/uadmin/colors"
 )
 
 // Reporting Levels

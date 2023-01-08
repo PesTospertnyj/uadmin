@@ -8,7 +8,6 @@ require (
 	github.com/pquerna/otp v1.3.0
 	github.com/thlib/go-timezone-local v0.0.0-20210907160436-ef149e42d28e
 	github.com/uadmin/rrd v0.0.0-20200219090641-e438da1b7640
-	github.com/uadmin/uadmin v0.9.2
 	github.com/xuri/excelize/v2 v2.6.1
 	golang.org/x/crypto v0.2.0
 	golang.org/x/mod v0.7.0

@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/uadmin/uadmin/openapi"
+	"github.com/PesTospertnyj/uadmin/openapi"
 )
 
 // CustomOpenAPI is a handler to be called to customize OpenAPI schema

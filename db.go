@@ -25,7 +25,7 @@ import (
 	"time"
 
 	// Enable SQLLite
-	"github.com/uadmin/uadmin/colors"
+	"github.com/PesTospertnyj/uadmin/colors"
 	"gorm.io/driver/sqlite"
 
 	"github.com/thlib/go-timezone-local/tzlocal"

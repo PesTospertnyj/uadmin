@@ -9,8 +9,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/PesTospertnyj/uadmin/helper"
 	"github.com/jinzhu/inflection"
-	"github.com/uadmin/uadmin/helper"
 )
 
 // HideInDashboarder used to check if a model should be hidden in
