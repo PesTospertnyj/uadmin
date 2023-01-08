@@ -36,6 +36,11 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 		UploadImageHandler(w, r, session)
 		return
 	}
+
+	//if strings.HasPrefix(Path, "/upload_image_base64") {
+	//	UploadImageHandler(w, r, session)
+	//	return
+	//}
 	if strings.HasPrefix(Path, "/search") {
 		searchApiHandler(w, r, session)
 		return
