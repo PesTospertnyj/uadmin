@@ -1,6 +1,7 @@
 package uadmin
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
 	"image"
@@ -204,31 +205,35 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 
 		// write new image to file
 		if fExt == cJPG || fExt == cJPEG {
-			err = jpeg.Encode(fActive, img, nil)
+			var buf bytes.Buffer
+			err = jpeg.Encode(&buf, img, nil)
 			if err != nil {
 				Trail(ERROR, "ProcessForm.Encode active jpg. %s", err)
 				return ""
 			}
 
-			err = jpeg.Encode(fRaw, img, nil)
-			if err != nil {
-				Trail(ERROR, "ProcessForm.Encode raw jpg. %s", err)
-				return ""
-			}
+			return toBase64(buf.Bytes())
+			//err = jpeg.Encode(fRaw, img, nil)
+			//if err != nil {
+			//	Trail(ERROR, "ProcessForm.Encode raw jpg. %s", err)
+			//	return ""
+			//}
 		}
 
 		if fExt == cPNG {
-			err = png.Encode(fActive, img)
+			var buf bytes.Buffer
+			err = png.Encode(&buf, img)
 			if err != nil {
 				Trail(ERROR, "ProcessForm.Encode active png. %s", err)
 				return ""
 			}
 
-			err = png.Encode(fRaw, img)
-			if err != nil {
-				Trail(ERROR, "ProcessForm.Encode raw png. %s", err)
-				return ""
-			}
+			return toBase64(buf.Bytes())
+			//err = png.Encode(fRaw, img)
+			//if err != nil {
+			//	Trail(ERROR, "ProcessForm.Encode raw png. %s", err)
+			//	return ""
+			//}
 		}
 
 		if fExt == cGIF {
@@ -256,4 +261,8 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 	}
 
 	return val
+}
+
+func toBase64(data []byte) string {
+	return base64.StdEncoding.EncodeToString(data)
 }
