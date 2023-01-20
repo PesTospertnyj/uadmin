@@ -93,6 +93,10 @@ func GenerateOpenAPISchema() {
 					return &openapi.SchemaObject{
 						Type: "string",
 					}
+				case cIMAGE_MINIO:
+					return &openapi.SchemaObject{
+						Type: "string",
+					}
 				case cFK:
 					return &openapi.SchemaObject{
 						AllOf: []*openapi.SchemaObject{
@@ -270,6 +274,8 @@ func GenerateOpenAPISchema() {
 							fallthrough
 						case cIMAGE:
 							fallthrough
+						case cIMAGE_MINIO:
+							fallthrough
 						case cHTML:
 							fallthrough
 						case cLINK:
@@ -356,6 +362,12 @@ func GenerateOpenAPISchema() {
 				case cFILE:
 					fallthrough
 				case cIMAGE:
+					return &openapi.SchemaObject{
+						Type:        "string",
+						Format:      "binary",
+						Description: v.Fields[i].Help,
+					}
+				case cIMAGE_MINIO:
 					return &openapi.SchemaObject{
 						Type:        "string",
 						Format:      "binary",

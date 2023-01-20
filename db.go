@@ -708,6 +708,8 @@ func GetABTest(r *http.Request, a interface{}, query interface{}, args ...interf
 					reflect.ValueOf(a).Elem().FieldByName(fName).SetString(v[index].v)
 				case cIMAGE:
 					reflect.ValueOf(a).Elem().FieldByName(fName).SetString(v[index].v)
+				case cIMAGE_MINIO:
+					reflect.ValueOf(a).Elem().FieldByName(fName).SetString(v[index].v)
 				}
 
 				// Increment impressions

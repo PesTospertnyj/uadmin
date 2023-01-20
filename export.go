@@ -293,7 +293,7 @@ func exportHandler(w http.ResponseWriter, r *http.Request, session *Session) {
 				file.SetCellValue(sheetName, cellName, GetString(value))
 				file.SetCellStyle(sheetName, cellName, cellName, bodyStyle)
 				excelAdjustWidthHight(file, sheetName, colName, cellName, i+2, GetString(value))
-			} else if schema.FieldByName(t.Field(c).Name).Type == cIMAGE {
+			} else if schema.FieldByName(t.Field(c).Name).Type == cIMAGE || schema.FieldByName(t.Field(c).Name).Type == cIMAGE_MINIO {
 				// Process images
 				if a.Index(i).Field(c).String() == "" {
 					continue

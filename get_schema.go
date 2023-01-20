@@ -237,7 +237,7 @@ func getSchema(a interface{}) (s ModelSchema, ok bool) {
 		}
 		if _, ok := tagMap[cIMAGE]; ok {
 			if f.Type != cSTRING {
-				Trail(WARNING, "Invalid image tag in %s.%s, field data type shold be string not (%s).", s.Name, f.Name, f.Type)
+				Trail(WARNING, "Invalid image tag in %s.%s, field data type should be string not (%s).", s.Name, f.Name, f.Type)
 			} else {
 				f.Type = cIMAGE
 				f.UploadTo = tagMap["upload_to"]
@@ -251,9 +251,25 @@ func getSchema(a interface{}) (s ModelSchema, ok bool) {
 				}
 			}
 		}
+		if _, ok := tagMap[cIMAGE_MINIO]; ok {
+			if f.Type != cSTRING {
+				Trail(WARNING, "Invalid image tag in %s.%s, field data type should be string not (%s).", s.Name, f.Name, f.Type)
+			} else {
+				f.Type = cIMAGE_MINIO
+				f.UploadTo = tagMap["upload_to"]
+				if f.UploadTo != "" {
+					if f.UploadTo[0] != '/' {
+						f.UploadTo = "/" + f.UploadTo
+					}
+					if f.UploadTo[len(f.UploadTo)-1] != '/' {
+						f.UploadTo = f.UploadTo + "/"
+					}
+				}
+			}
+		}
 		if _, ok := tagMap[cFILE]; ok {
 			if f.Type != cSTRING {
-				Trail(WARNING, "Invalid file tag in %s.%s, field data type shold be string not (%s).", s.Name, f.Name, f.Type)
+				Trail(WARNING, "Invalid file tag in %s.%s, field data type should be string not (%s).", s.Name, f.Name, f.Type)
 			} else {
 				f.Type = cFILE
 				f.UploadTo = tagMap["upload_to"]

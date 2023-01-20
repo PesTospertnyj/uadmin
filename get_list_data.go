@@ -227,7 +227,7 @@ func evaluateObject(obj interface{}, t reflect.Type, s *ModelSchema, lang string
 			if !choiceAdded {
 				y = append(y, cIndex)
 			}
-		} else if s.Fields[index].Type == cIMAGE {
+		} else if s.Fields[index].Type == cIMAGE || s.Fields[index].Type == cIMAGE_MINIO {
 			temp := template.HTML(fmt.Sprintf(`<img class="hvr-grow pointer image_trigger" style="max-width: 50px; height: auto;" src="%s" />`, v.Interface()))
 			y = append(y, temp)
 
