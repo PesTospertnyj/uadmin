@@ -1,6 +1,7 @@
 package uadmin
 
 import (
+	"bytes"
 	"context"
 	"encoding/base64"
 	"fmt"
@@ -207,6 +208,13 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 		// write new image to file
 		if fExt == cJPG || fExt == cJPEG {
 			//if f.Type == cIMAGE_MINIO {
+			var buf bytes.Buffer
+			err = jpeg.Encode(&buf, img, nil)
+			if err != nil {
+				Trail(ERROR, "ProcessForm.Encode active jpg. %s", err)
+				return ""
+			}
+
 			ctx := context.Background()
 			minioConfig := NewMinioConfig("", "", "", false, "", "", "", false)
 			minioService, err := NewMinioService(ctx, minioConfig)
@@ -215,7 +223,7 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 				return ""
 			}
 
-			minioFilename, err := minioService.UploadFile(ctx, handler.Filename, "application/jpeg", handler.Size, httpFile)
+			minioFilename, err := minioService.UploadFile(ctx, handler.Filename, "application/jpeg", handler.Size, bytes.NewReader(buf.Bytes()))
 			if err != nil {
 				logrus.Error(err)
 				return ""
@@ -224,12 +232,6 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 			return minioFilename
 			//}
 
-			//var buf bytes.Buffer
-			//err = jpeg.Encode(&buf, img, nil)
-			//if err != nil {
-			//	Trail(ERROR, "ProcessForm.Encode active jpg. %s", err)
-			//	return ""
-			//}
 			//
 			//return toBase64(buf.Bytes())
 			//err = jpeg.Encode(fRaw, img, nil)
@@ -241,6 +243,13 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 
 		if fExt == cPNG {
 			//if f.Type == cIMAGE_MINIO {
+			var buf bytes.Buffer
+			err = png.Encode(&buf, img)
+			if err != nil {
+				Trail(ERROR, "ProcessForm.Encode active png. %s", err)
+				return ""
+			}
+
 			ctx := context.Background()
 			minioConfig := NewMinioConfig("", "", "", false, "", "", "", false)
 			minioService, err := NewMinioService(ctx, minioConfig)
@@ -249,7 +258,7 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 				return ""
 			}
 
-			minioFilename, err := minioService.UploadFile(ctx, handler.Filename, "application/png", handler.Size, httpFile)
+			minioFilename, err := minioService.UploadFile(ctx, handler.Filename, "application/png", handler.Size, bytes.NewReader(buf.Bytes()))
 			if err != nil {
 				logrus.Error(err)
 				return ""
@@ -258,12 +267,6 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 			return minioFilename
 			//}
 
-			//var buf bytes.Buffer
-			//err = png.Encode(&buf, img)
-			//if err != nil {
-			//	Trail(ERROR, "ProcessForm.Encode active png. %s", err)
-			//	return ""
-			//}
 			//
 			//return toBase64(buf.Bytes())
 			//err = png.Encode(fRaw, img)
