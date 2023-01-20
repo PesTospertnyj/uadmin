@@ -170,7 +170,7 @@
                       {{if ne "" (.ErrMsg)}}<span class="text-muted" style="font-size:12px; color:red;"><i class="fa fa-question-circle"></i> {{.ErrMsg}}</span>{{ end }}
                     </div>
                   </td>
-                  {{else if (or (eq $type "image") (eq $type "file"))}}
+                  {{else if (or (eq $type "image") (eq $type "image_minio") (eq $type "file"))}}
                   <td style="width:80%;" class="drop-file" id="drop-file-{{.Name}}">
                     <input name="{{.Name}}-raw" id="{{.Name}}-raw" type="hidden">
                     <input name="{{.Name}}-delete" id="{{.Name}}-delete" type="hidden">
