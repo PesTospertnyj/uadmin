@@ -47,6 +47,9 @@ const cLIST = "list"
 // cIMAGE !
 const cIMAGE = "image"
 
+// cIMAGE_MINIO !
+const cIMAGE_MINIO = "image_minio"
+
 // cFK !
 const cFK = "fk"
 

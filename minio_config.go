@@ -11,9 +11,15 @@ type MinioConfig struct {
 	isHttps         bool
 }
 
+var cfg *MinioConfig
+
 func NewMinioConfig(endpoint string, accessKeyId string, secretAccessKey string, useSSl bool, bucketName string,
 	location string, policy string, isHttps bool) *MinioConfig {
-	return &MinioConfig{
+	if cfg != nil {
+		return cfg
+	}
+
+	cfg = &MinioConfig{
 		endpoint:        endpoint,
 		accessKeyId:     accessKeyId,
 		secretAccessKey: secretAccessKey,
@@ -23,4 +29,6 @@ func NewMinioConfig(endpoint string, accessKeyId string, secretAccessKey string,
 		policy:          policy,
 		isHttps:         isHttps,
 	}
+
+	return cfg
 }

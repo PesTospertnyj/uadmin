@@ -13,12 +13,21 @@ type minioService struct {
 	config *MinioConfig
 }
 
+var uadminMinio *minioService
+
 func NewMinioService(ctx context.Context, config *MinioConfig) (MinioService, error) {
+	if uadminMinio != nil {
+		return uadminMinio, nil
+	}
+
 	client, err := connectMinio(ctx, config)
 	if err != nil {
 		return nil, err
 	}
-	return &minioService{client: client, config: config}, nil
+
+	uadminMinio = &minioService{client: client, config: config}
+
+	return uadminMinio, nil
 }
 
 func (s *minioService) UploadFile(ctx context.Context, filename, contentType string, size int64, file io.Reader) (string, error) {

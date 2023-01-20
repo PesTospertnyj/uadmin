@@ -2,8 +2,10 @@ package uadmin
 
 import (
 	"bytes"
+	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"image"
 	"image/gif"
 	"image/jpeg"
@@ -90,9 +92,9 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 	fExt := strings.ToLower(fParts[len(fParts)-1])
 
 	pathName = "." + uploadTo + modelName + "_" + f.Name + "_" + GenerateBase64(10) + "/"
-	if f.Type == cIMAGE && len(fParts) > 1 {
+	if (f.Type == cIMAGE || f.Type == cIMAGE_MINIO) && len(fParts) > 1 {
 		fName = strings.TrimSuffix(fName, "."+fExt) + "_raw." + fExt
-	} else if f.Type == cIMAGE {
+	} else if f.Type == cIMAGE || f.Type == cIMAGE_MINIO {
 		f.ErrMsg = "Image file with no extension. Please use png, jpg, jpeg or gif."
 		return ""
 	}
@@ -205,6 +207,24 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 
 		// write new image to file
 		if fExt == cJPG || fExt == cJPEG {
+			if f.Type == cIMAGE_MINIO {
+				ctx := context.Background()
+				minioConfig := NewMinioConfig("", "", "", false, "", "", "", false)
+				minioService, err := NewMinioService(ctx, minioConfig)
+				if err != nil {
+					logrus.Error(err)
+					return ""
+				}
+
+				minioFilename, err := minioService.UploadFile(ctx, fName, "application/jpeg", handler.Size, httpFile)
+				if err != nil {
+					logrus.Error(err)
+					return ""
+				}
+
+				return minioFilename
+			}
+
 			var buf bytes.Buffer
 			err = jpeg.Encode(&buf, img, nil)
 			if err != nil {
@@ -221,6 +241,24 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 		}
 
 		if fExt == cPNG {
+			if f.Type == cIMAGE_MINIO {
+				ctx := context.Background()
+				minioConfig := NewMinioConfig("", "", "", false, "", "", "", false)
+				minioService, err := NewMinioService(ctx, minioConfig)
+				if err != nil {
+					logrus.Error(err)
+					return ""
+				}
+
+				minioFilename, err := minioService.UploadFile(ctx, fName, "application/png", handler.Size, httpFile)
+				if err != nil {
+					logrus.Error(err)
+					return ""
+				}
+
+				return minioFilename
+			}
+
 			var buf bytes.Buffer
 			err = png.Encode(&buf, img)
 			if err != nil {

@@ -25,6 +25,7 @@ func settingsHandler(w http.ResponseWriter, r *http.Request, session *Session) {
 	tMap := map[DataType]string{
 		DataType(0).File():  cFILE,
 		DataType(0).Image(): cIMAGE,
+		DataType(0).Image(): cIMAGE_MINIO,
 	}
 
 	if session == nil {
