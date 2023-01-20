@@ -215,7 +215,7 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 				return ""
 			}
 
-			minioFilename, err := minioService.UploadFile(ctx, fName, "application/jpeg", handler.Size, httpFile)
+			minioFilename, err := minioService.UploadFile(ctx, handler.Filename, "application/jpeg", handler.Size, httpFile)
 			if err != nil {
 				logrus.Error(err)
 				return ""
@@ -249,7 +249,7 @@ func processUpload(r *http.Request, f *F, modelName string, session *Session, s 
 				return ""
 			}
 
-			minioFilename, err := minioService.UploadFile(ctx, fName, "application/png", handler.Size, httpFile)
+			minioFilename, err := minioService.UploadFile(ctx, handler.Filename, "application/png", handler.Size, httpFile)
 			if err != nil {
 				logrus.Error(err)
 				return ""
